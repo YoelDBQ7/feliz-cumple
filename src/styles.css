@@ -1,0 +1,190 @@
+:root {
+  --noche: #24102f;
+  --ciruela: #3b1a52;
+  --uva: #7d4cc2;
+  --lila: #c3a8ee;
+  --marfil: #fdf9f4;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html, body, #root { min-height: 100%; }
+body {
+  font-family: 'Jost', system-ui, sans-serif;
+  color: var(--marfil);
+  background: var(--noche);
+}
+
+.escena {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem 3rem;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, #5a2d7d 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 110%, #4a2268 0%, transparent 55%),
+    var(--noche);
+}
+
+/* ---------- Fondo ---------- */
+.fondo { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.flota { position: absolute; bottom: -40px; opacity: 0; animation: sube linear infinite; }
+.tono0 { fill: #9b6fe0; }
+.tono1 { fill: #7d4cc2; }
+.tono2 { fill: #c3a8ee; }
+.petalo {
+  position: absolute; top: -30px; opacity: 0;
+  background: radial-gradient(circle at 30% 30%, #fff, #e9dff0);
+  border-radius: 80% 0 80% 0;
+  animation: cae linear infinite;
+}
+@keyframes sube {
+  0% { transform: translateY(0) rotate(-8deg); opacity: 0; }
+  10% { opacity: .55; }
+  90% { opacity: .45; }
+  100% { transform: translateY(-110vh) rotate(10deg); opacity: 0; }
+}
+@keyframes cae {
+  0% { transform: translate(0, 0) rotate(0); opacity: 0; }
+  10% { opacity: .85; }
+  100% { transform: translate(60px, 110vh) rotate(300deg); opacity: 0; }
+}
+
+/* ---------- Portada ---------- */
+.portada {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1.8rem; text-align: center; max-width: 30rem;
+  animation: entra .8s ease both;
+}
+@keyframes entra { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+.rosa-grande { filter: drop-shadow(0 8px 30px rgba(195, 168, 238, .5)); animation: respira 5s ease-in-out infinite; }
+@keyframes respira { 50% { transform: scale(1.05) rotate(4deg); } }
+.pregunta {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 500;
+  font-size: clamp(1.9rem, 6vw, 2.8rem);
+  line-height: 1.2;
+}
+
+.boton {
+  font: 500 1rem 'Jost', sans-serif;
+  letter-spacing: .04em;
+  padding: .95rem 2.2rem;
+  border: 1.5px solid var(--lila);
+  border-radius: 999px;
+  background: var(--marfil);
+  color: var(--ciruela);
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+  box-shadow: 0 6px 24px rgba(125, 76, 194, .45);
+}
+.boton:hover { transform: translateY(-2px); background: #fff; }
+.boton:active { transform: translateY(0) scale(.98); }
+.boton.chico { padding: .6rem 1.6rem; font-size: .9rem; box-shadow: none; }
+.boton:focus-visible, .foto:focus-visible, .musica:focus-visible { outline: 3px solid var(--lila); outline-offset: 3px; }
+
+/* ---------- Mosaico ---------- */
+.mosaico-seccion {
+  position: relative; z-index: 1;
+  width: min(100%, 62rem);
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.rosa-mini { margin-bottom: .4rem; }
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 600;
+  font-size: clamp(2.1rem, 7vw, 3.8rem);
+  line-height: 1.1;
+  text-shadow: 0 2px 24px rgba(195, 168, 238, .5);
+}
+.indicacion { margin: .8rem 0 2rem; color: var(--lila); font-size: 1.05rem; }
+
+.mosaico {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 34rem;
+  align-items: start;
+}
+.foto-2 { grid-column: 1 / -1; }
+.foto-3 { grid-column: 1 / -1; width: 50%; justify-self: center; }
+@media (min-width: 900px) {
+  .mosaico { display: flex; justify-content: center; align-items: center; max-width: none; gap: 1.4rem; }
+  .foto, .foto-3 { width: auto; height: 16rem; }
+}
+.foto {
+  position: relative;
+  padding: 7px;
+  border: 0; cursor: pointer;
+  background: var(--marfil);
+  border-radius: 6px;
+  aspect-ratio: var(--ar);
+  box-shadow: 0 10px 30px rgba(10, 0, 20, .5);
+  opacity: 0;
+  animation: aparece .9s cubic-bezier(.2, .8, .3, 1) forwards;
+  transition: scale .25s;
+}
+.foto-0 { --giro: -2.5deg; --ar: 0.57; }
+.foto-1 { --giro: 2deg; --ar: 0.56; }
+.foto-2 { --giro: 1.5deg; --ar: 1.78; }
+.foto-3 { --giro: -2deg; --ar: 0.56; }
+.foto:hover { scale: 1.05; z-index: 2; }
+@keyframes aparece {
+  from { opacity: 0; transform: translateY(24px) rotate(0) scale(.9); }
+  to { opacity: 1; transform: rotate(var(--giro)); }
+}
+.foto img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 3px; }
+.visto { position: absolute; right: -8px; top: -10px; width: 28px; fill: var(--uva); filter: drop-shadow(0 2px 4px rgba(0,0,0,.4)); }
+
+.musica {
+  margin-top: 2.4rem;
+  font: 400 .9rem 'Jost', sans-serif;
+  padding: .5rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid rgba(195, 168, 238, .6);
+  background: transparent; color: var(--lila); cursor: pointer;
+}
+.musica:hover { background: rgba(195, 168, 238, .15); }
+
+/* ---------- Mensaje ---------- */
+.velo {
+  position: fixed; inset: 0; z-index: 10;
+  display: grid; place-items: center; padding: 1rem;
+  background: rgba(24, 8, 36, .78);
+  backdrop-filter: blur(6px);
+  animation: fundido .25s ease both;
+}
+@keyframes fundido { from { opacity: 0; } }
+.carta {
+  width: min(100%, 24rem);
+  max-height: 92dvh;
+  overflow: auto;
+  padding: 12px 12px 1.6rem;
+  background: var(--marfil);
+  color: var(--ciruela);
+  border-radius: 10px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
+  animation: abre .4s cubic-bezier(.2, .8, .3, 1) both;
+}
+@keyframes abre { from { opacity: 0; transform: translateY(20px) scale(.92); } }
+.carta img { width: 100%; max-height: 52dvh; object-fit: cover; border-radius: 6px; }
+.carta-corazon { width: 30px; fill: var(--uva); flex-shrink: 0; animation: late 1.4s ease-in-out infinite; }
+@keyframes late { 50% { transform: scale(1.18); } }
+.carta p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; font-weight: 600;
+  font-size: 1.7rem; line-height: 1.2;
+  padding: 0 .8rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flota, .petalo, .rosa-grande, .carta-corazon { animation: none; }
+  .flota, .petalo { opacity: .35; }
+  .foto { animation-duration: .01s; animation-delay: 0s !important; }
+}
